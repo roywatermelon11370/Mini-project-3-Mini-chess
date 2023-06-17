@@ -13,8 +13,24 @@
  */
 int State::evaluate(){
   // [TODO] design your own evaluation function
-  
-  return 0;
+  int stateValue=0;
+  for(int i=0;i<6;i++) {
+    for(int j=0;j<5;j++) {
+      stateValue+=(board.board[player][j][i]*10);
+      if(board.board[player][j][i]==6) {
+        stateValue+=60;
+      }
+    }
+  }
+  for(int i=0;i<6;i++) {
+    for(int j=0;j<5;j++) {
+      stateValue-=(board.board[(player+3)%2][j][i]*10);
+      if(board.board[(player+3)%2][j][i]==6) {
+        stateValue-=60;
+      }
+    }
+  }
+  return stateValue;
 }
 
 
@@ -73,9 +89,11 @@ static const int move_table_king[8][2] = {
 /**
  * @brief get all legal actions of now state
  * 
+ * 
  */
 void State::get_legal_actions(){
   // [Optional]
+  // 下一步
   // This method is not very efficient
   // You can redesign it
   this->game_state = NONE;
@@ -87,7 +105,7 @@ void State::get_legal_actions(){
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
       if((now_piece=self_board[i][j])){
-        // std::cout << this->player << "," << now_piece << ' ';
+        std::cout << this->player << "," << now_piece << ' ';
         switch (now_piece){
           case 1: //pawn
             if(this->player && i<BOARD_H-1){
