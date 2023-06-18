@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cmath>
+#include <iostream>
 #include "../state/state.hpp"
 #include "./minimax.hpp"
 
@@ -11,41 +12,40 @@
  * @return Move 
  */
 
-Move Minimax::get_move(State *state, int depth){
+Move Minimax::get_move(State *state, int depth) {
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int max=-1000000,value;
+  int value=-10000000;
+  Move bestMove;
   for(auto it:state->legal_actions) {
-    value=std::max(value,get_value(state->next_state(it),depth-1));
+    value=std::max(value,get_value(state->next_state(it),depth,state->player));
+    bestMove=it;
   }
-  for(auto it:state->legal_actions) {
-    if(state->next_state(it)->evaluate()==max) {
-      return it;
-    }
-  }
+  return bestMove;
 }
 
-int Minimax::get_value(State *state, int depth) {
+int Minimax::get_value(State *state, int depth, int me) {
+  //std::cout << std::endl << depth << std::endl; 
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
   if(depth==0) {
-    return state->evaluate();
+    return state->evaluate(me);
   }
-  else if(depth%2==1) {
+  else if(state->player==me) {
     // 我方
-    int max=-1000000;
+    int max=-10000;
     for(auto it : state->legal_actions) {
-      max=std::max(max,get_value(state->next_state(it),depth-1));
+      max=std::max(max,get_value(state->next_state(it),depth-1,me));
     }
     return max;
   }
   else {
     // 敵方
-    int min=1000000;
+    int min=10000;
     for(auto it : state->legal_actions) {
-      min=std::min(min,get_value(state->next_state(it),depth-1));
+      min=std::min(min,get_value(state->next_state(it),depth-1,me));
     }
     return min;
   }

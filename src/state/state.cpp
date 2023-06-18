@@ -11,22 +11,19 @@
  * 
  * @return int 
  */
-int State::evaluate(){
+int State::evaluate(int me){
   // [TODO] design your own evaluation function
   int stateValue=0;
   for(int i=0;i<6;i++) {
     for(int j=0;j<5;j++) {
-      stateValue+=(board.board[player][i][j]*10);
-      if(board.board[player][i][j]==6) {
-        stateValue+=60;
+      stateValue+=(board.board[me][i][j]*5);
+      if(board.board[me][i][j]==6) {
+        stateValue+=100;
       }
-    }
-  }
-  for(int i=0;i<6;i++) {
-    for(int j=0;j<5;j++) {
-      stateValue-=(board.board[(player+3)%2][i][j]*10);
-      if(board.board[(player+3)%2][i][j]==6) {
-        stateValue-=60;
+
+      stateValue-=(board.board[!me][i][j]*5);
+      if(board.board[!me][i][j]==6) {
+        stateValue-=100;
       }
     }
   }
