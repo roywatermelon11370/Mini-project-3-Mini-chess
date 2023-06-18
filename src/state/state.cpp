@@ -16,16 +16,16 @@ int State::evaluate(){
   int stateValue=0;
   for(int i=0;i<6;i++) {
     for(int j=0;j<5;j++) {
-      stateValue+=(board.board[player][j][i]*10);
-      if(board.board[player][j][i]==6) {
+      stateValue+=(board.board[player][i][j]*10);
+      if(board.board[player][i][j]==6) {
         stateValue+=60;
       }
     }
   }
   for(int i=0;i<6;i++) {
     for(int j=0;j<5;j++) {
-      stateValue-=(board.board[(player+3)%2][j][i]*10);
-      if(board.board[(player+3)%2][j][i]==6) {
+      stateValue-=(board.board[(player+3)%2][i][j]*10);
+      if(board.board[(player+3)%2][i][j]==6) {
         stateValue-=60;
       }
     }

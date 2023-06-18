@@ -22,10 +22,10 @@ void read_board(std::ifstream& fin) {
     for (int i=0; i<BOARD_H; i++) {
       for (int j=0; j<BOARD_W; j++) {
         int c; fin >> c;
-        // std::cout << c << " ";
+         std::cout << c << " ";
         board.board[pl][i][j] = c;
       }
-      // std::cout << std::endl;
+       std::cout << std::endl;
     }
   }
   root = new State(board, player);
@@ -42,7 +42,7 @@ void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
   while(true) {
     // Choose a minimax spot.
-    auto move = Minimax::get_move(root, 0);
+    auto move = Minimax::get_move(root, 3);
     fout << move.first.first << " " << move.first.second << " "\
          << move.second.first << " " << move.second.second << std::endl;
     
