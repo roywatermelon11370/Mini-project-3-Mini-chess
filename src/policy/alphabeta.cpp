@@ -14,6 +14,8 @@ using namespace std;
  * @return Move 
  */
 
+map<State,int> visited;
+
 Move Alphabeta::get_move(State *state, int depth) {
   if(!state->legal_actions.size())
     state->get_legal_actions();
@@ -31,11 +33,17 @@ Move Alphabeta::get_move(State *state, int depth) {
 }
 
 int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
+  if(visited[*state]) {
+    return visited[*state];
+  }
+  
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
   if(depth==0) {
-    return state->evaluate(me);
+    int value=state->evaluate(me);
+    visited[*state]=value;
+    return value;
   }
   else if(state->player==me) {
     // 我方
@@ -46,6 +54,7 @@ int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
         break;
       }
     }
+    visited[*state]=alpha;
     return alpha;
   }
   else {
@@ -57,6 +66,7 @@ int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
         break;
       }
     }
+    visited[*state]=beta;
     return beta;
   }
 }

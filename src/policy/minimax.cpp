@@ -3,6 +3,8 @@
 #include <iostream>
 #include "../state/state.hpp"
 #include "./minimax.hpp"
+#include <map>
+using namespace std;
 
 /**
  * @brief Randomly get a legal action
@@ -11,6 +13,8 @@
  * @param depth You may need this for other policy
  * @return Move 
  */
+
+//map<State*,int> visited;
 
 Move Minimax::get_move(State *state, int depth) {
   if(!state->legal_actions.size())
@@ -30,6 +34,10 @@ Move Minimax::get_move(State *state, int depth) {
 
 int Minimax::get_value(State *state, int depth, int me) {
   //std::cout << std::endl << depth << std::endl; 
+  /*if(visited[state]) {
+    return visited[state];
+  } */
+
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
@@ -42,6 +50,7 @@ int Minimax::get_value(State *state, int depth, int me) {
     for(auto it : state->legal_actions) {
       max=std::max(max,get_value(state->next_state(it),depth-1,me));
     }
+    //visited[state]=max;
     return max;
   }
   else {
@@ -50,6 +59,7 @@ int Minimax::get_value(State *state, int depth, int me) {
     for(auto it : state->legal_actions) {
       min=std::min(min,get_value(state->next_state(it),depth-1,me));
     }
+    //visited[state]=min;
     return min;
   }
 }

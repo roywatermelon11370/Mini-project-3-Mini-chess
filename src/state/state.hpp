@@ -60,6 +60,10 @@ class State{
     void get_legal_actions();
     std::string encode_output();
     std::string encode_state();
+
+    bool operator < (State& rhs) {
+      return value<rhs.value;
+    }
 };
 
 #endif
