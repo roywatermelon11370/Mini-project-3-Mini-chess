@@ -14,18 +14,20 @@ using namespace std;
  * @return Move 
  */
 
-
 Move Alphabeta::get_move(State *state, int depth) {
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
-  int value=-10000;
-  Move bestMove;
+  int value=-1000000;
+  Move best;
+  int tmp;
   for(auto it:state->legal_actions) {
-    value=std::max(value,get_value(state->next_state(it),depth,-175,175,state->player));
-    bestMove=it;
+    if(value<(tmp=get_value(state->next_state(it),depth,-3000,3000,state->player))) {
+      value=tmp;
+      best=it;
+    }
   }
-  return bestMove;
+  return best;
 }
 
 int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
@@ -37,10 +39,9 @@ int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
   }
   else if(state->player==me) {
     // 我方
-    int value=-10000;
+    int value=-200000;
     for(auto it : state->legal_actions) {
-      value=std::max(value,get_value(state->next_state(it),depth-1,alpha,beta,me));
-      alpha=std::max(value,alpha);
+      alpha=std::max(get_value(state->next_state(it),depth-1,alpha,beta,me),alpha);
       if(alpha>=beta) {
         break;
       }
@@ -49,10 +50,9 @@ int Alphabeta::get_value(State *state, int depth, int alpha, int beta, int me) {
   }
   else {
     // 敵方
-    int value=10000;
+    int value=200000;
     for(auto it : state->legal_actions) {
-      value=std::min(value,get_value(state->next_state(it),depth-1,alpha,beta,me));
-      beta=std::min(beta,value);
+      beta=std::min(beta,get_value(state->next_state(it),depth-1,alpha,beta,me));
       if(beta<=alpha) {
         break;
       }

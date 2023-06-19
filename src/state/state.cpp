@@ -16,17 +16,70 @@ int State::evaluate(int me){
   int stateValue=0;
   for(int i=0;i<6;i++) {
     for(int j=0;j<5;j++) {
-      stateValue+=(board.board[me][i][j]*5);
-      if(board.board[me][i][j]==6) {
+      switch(board.board[me][i][j]) {
+        case 6:
+        stateValue+=200000;
+        break;
+        
+        case 5:
+        stateValue+=900;
+        break;
+
+        case 4:
+        stateValue+=330;
+        break;
+
+        case 3:
+        stateValue+=320;
+        break;
+
+        case 2:
+        stateValue+=500;
+        break;
+
+        case 1:
         stateValue+=100;
+        break;
+
+        default:
+        break;
       }
 
-      stateValue-=(board.board[!me][i][j]*5);
-      if(board.board[!me][i][j]==6) {
+      switch(board.board[!me][i][j]) {
+        case 6:
+        stateValue-=200000;
+        break;
+
+        case 5:
+        stateValue-=900;
+        break;
+
+        case 4:
+        stateValue-=330;
+        break;
+
+        case 3:
+        stateValue-=320;
+        break;
+
+        case 2:
+        stateValue-=500;
+        break;
+
+        case 1:
         stateValue-=100;
+        break;
+
+        default:
+        break;
       }
     }
   }
+  
+  if(int tmp=legal_actions.size()>0) {
+    stateValue+=tmp;
+  }
+  
   return stateValue;
 }
 
@@ -102,7 +155,7 @@ void State::get_legal_actions(){
   for(int i=0; i<BOARD_H; i+=1){
     for(int j=0; j<BOARD_W; j+=1){
       if((now_piece=self_board[i][j])){
-        std::cout << this->player << "," << now_piece << ' ';
+        //std::cout << this->player << "," << now_piece << ' ';
         switch (now_piece){
           case 1: //pawn
             if(this->player && i<BOARD_H-1){

@@ -17,12 +17,15 @@ Move Minimax::get_move(State *state, int depth) {
     state->get_legal_actions();
 
   int value=-10000000;
-  Move bestMove;
+  Move best;
+  int tmp;
   for(auto it:state->legal_actions) {
-    value=std::max(value,get_value(state->next_state(it),depth,state->player));
-    bestMove=it;
+    if(value<(tmp=get_value(state->next_state(it),depth,!state->player))) {
+      value=tmp;
+      best=it;
+    }
   }
-  return bestMove;
+  return best;
 }
 
 int Minimax::get_value(State *state, int depth, int me) {
