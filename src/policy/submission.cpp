@@ -46,7 +46,12 @@ int Submission::get_value(State *state, int depth, int alpha, int beta, int me, 
     return state->evaluate(me);
   }
 
-  else if(state->player==me) {
+  if(state->game_state==WIN) {
+    if(state->player==me) return 71227122;
+    else return -71227122;
+  }
+
+  if(state->player==me) {
     // 我方
     for(auto it : state->legal_actions) {
       if(it.second!=pre1.first&&it.second!=pre3.first) {

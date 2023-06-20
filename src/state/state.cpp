@@ -12,76 +12,20 @@
  */
 int State::evaluate(int me){
   // [TODO] design your own evaluation function
+    if(game_state==WIN&&player==me) {
+    return 71227122;
+  }
+  if(game_state==WIN&&player!=me) {
+    return -71227122;
+  }
   int stateValue=0;
-  for(int i=0;i<6;i++) {
-    for(int j=0;j<5;j++) {
-      switch(board.board[me][i][j]) {
-        case 6:
-        stateValue+=20000;
-        break;
-        
-        case 5:
-        stateValue+=90;
-        break;
-
-        case 4:
-        stateValue+=33;
-        break;
-
-        case 3:
-        stateValue+=32;
-        break;
-
-        case 2:
-        stateValue+=50;
-        break;
-
-        case 1:
-        stateValue+=10;
-        break;
-
-        default:
-        break;
-      }
-
-      switch(board.board[1-me][i][j]) {
-        case 6:
-        stateValue-=20000;
-        break;
-
-        case 5:
-        stateValue-=90;
-        break;
-
-        case 4:
-        stateValue-=33;
-        break;
-
-        case 3:
-        stateValue-=32;
-        break;
-
-        case 2:
-        stateValue-=50;
-        break;
-
-        case 1:
-        stateValue-=10;
-        break;
-
-        default:
-        break;
-      }
+  int value[]={0,10,50,32,33,90,2000};
+  for(int i=0;i<BOARD_H;i++) {
+    for(int j=0;j<BOARD_W;j++) {
+      stateValue+=value[int(board.board[me][i][j])];
+      stateValue-=value[int(board.board[1-me][i][j])];
     }
   }
-  
-  // if(game_state==WIN&&player==me) {
-  //   return 45645645;
-  // }
-  // if(game_state==WIN&&player!=me) {
-  //   return -45645645;
-  // }
-
   return stateValue;
 }
 

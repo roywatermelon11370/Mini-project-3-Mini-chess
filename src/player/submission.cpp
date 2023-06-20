@@ -40,7 +40,7 @@ void read_board(std::ifstream& fin) {
  */
 void write_valid_spot(std::ofstream& fout) {
   // Keep updating the output until getting killed.
-  int depth=3;
+  int depth=4;
   while(true) {
     // Choose a minimax spot.
     auto move = Submission::get_move(root, depth);
