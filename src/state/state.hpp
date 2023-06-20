@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "../config.hpp"
+#include "weight.hpp"
 
 
 typedef std::pair<size_t, size_t> Point;
@@ -60,10 +61,6 @@ class State{
     void get_legal_actions();
     std::string encode_output();
     std::string encode_state();
-
-    bool operator < (State& rhs) {
-      return value<rhs.value;
-    }
 };
 
 #endif

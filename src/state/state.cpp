@@ -5,7 +5,6 @@
 #include "./state.hpp"
 #include "../config.hpp"
 
-
 /**
  * @brief evaluate the state
  * 
@@ -18,56 +17,56 @@ int State::evaluate(int me){
     for(int j=0;j<5;j++) {
       switch(board.board[me][i][j]) {
         case 6:
-        stateValue+=200000;
+        stateValue+=20000;
         break;
         
         case 5:
-        stateValue+=900;
+        stateValue+=90;
         break;
 
         case 4:
-        stateValue+=330;
+        stateValue+=33;
         break;
 
         case 3:
-        stateValue+=320;
+        stateValue+=32;
         break;
 
         case 2:
-        stateValue+=500;
+        stateValue+=50;
         break;
 
         case 1:
-        stateValue+=100;
+        stateValue+=10;
         break;
 
         default:
         break;
       }
 
-      switch(board.board[!me][i][j]) {
+      switch(board.board[1-me][i][j]) {
         case 6:
-        stateValue-=200000;
+        stateValue-=20000;
         break;
 
         case 5:
-        stateValue-=900;
+        stateValue-=90;
         break;
 
         case 4:
-        stateValue-=330;
+        stateValue-=33;
         break;
 
         case 3:
-        stateValue-=320;
+        stateValue-=32;
         break;
 
         case 2:
-        stateValue-=500;
+        stateValue-=50;
         break;
 
         case 1:
-        stateValue-=100;
+        stateValue-=10;
         break;
 
         default:
@@ -76,10 +75,13 @@ int State::evaluate(int me){
     }
   }
   
-  if(int tmp=legal_actions.size()>0) {
-    stateValue+=tmp;
-  }
-  
+  // if(game_state==WIN&&player==me) {
+  //   return 45645645;
+  // }
+  // if(game_state==WIN&&player!=me) {
+  //   return -45645645;
+  // }
+
   return stateValue;
 }
 

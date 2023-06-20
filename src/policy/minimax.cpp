@@ -4,6 +4,7 @@
 #include "../state/state.hpp"
 #include "./minimax.hpp"
 #include <map>
+#include <set>
 using namespace std;
 
 /**
@@ -14,7 +15,13 @@ using namespace std;
  * @return Move 
  */
 
-//map<State*,int> visited;
+// struct cmp {
+//   bool operator()(const State& lhs, const State& rhs) const {
+//     return lhs.value<rhs.value;
+//   }
+// };
+// map<State,int,cmp> visited;
+// set<State,cmp> ifVisited;
 
 Move Minimax::get_move(State *state, int depth) {
   if(!state->legal_actions.size())
@@ -33,16 +40,14 @@ Move Minimax::get_move(State *state, int depth) {
 }
 
 int Minimax::get_value(State *state, int depth, int me) {
-  //std::cout << std::endl << depth << std::endl; 
-  /*if(visited[state]) {
-    return visited[state];
-  } */
-
   if(!state->legal_actions.size())
     state->get_legal_actions();
 
   if(depth==0) {
-    return state->evaluate(me);
+    int value;
+    // visited[*state]=
+    value=state->evaluate(me);
+    return value;
   }
   else if(state->player==me) {
     // 我方
