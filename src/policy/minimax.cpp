@@ -45,7 +45,6 @@ int Minimax::get_value(State *state, int depth, int me) {
 
   if(depth==0) {
     int value;
-    // visited[*state]=
     value=state->evaluate(me);
     return value;
   }

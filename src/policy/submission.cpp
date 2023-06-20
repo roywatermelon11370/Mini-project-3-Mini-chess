@@ -30,7 +30,7 @@ Move Submission::get_move(State *state, int depth) {
   Move best;
   int tmp;
   for(auto it:state->legal_actions) {
-    if(value<(tmp=get_value(state->next_state(it),depth,-300000,300000,state->player, Move({{0,0},{0,0}}), Move({{0,0},{0,0}}), Move({{0,0},{0,0}})))) {
+    if(value<(tmp=get_value(state->next_state(it),depth,-10000000,10000000,state->player, Move({{0,0},{0,0}}), Move({{0,0},{0,0}}), Move({{0,0},{0,0}})))) {
       value=tmp;
       best=it;
     }
@@ -39,8 +39,9 @@ Move Submission::get_move(State *state, int depth) {
 }
 
 int Submission::get_value(State *state, int depth, int alpha, int beta, int me, Move pre1, Move pre2, Move pre3) {
-  if(state->legal_actions.empty())
-    state->get_legal_actions();
+  if(state->legal_actions.empty()) {
+        state->get_legal_actions();
+  }
 
   if(depth==0) {
     return state->evaluate(me);
@@ -54,7 +55,7 @@ int Submission::get_value(State *state, int depth, int alpha, int beta, int me, 
   if(state->player==me) {
     // 我方
     for(auto it : state->legal_actions) {
-      if(it.second!=pre1.first&&it.second!=pre3.first) {
+      if(!(it.second==pre1.first)&&!(it.second==pre2.first&&pre1.second==pre3.first)) {
         alpha=std::max(get_value(state->next_state(it),depth-1,alpha,beta,me,it,pre1,pre2),alpha);
         if(alpha>=beta) break;
       }
@@ -64,7 +65,7 @@ int Submission::get_value(State *state, int depth, int alpha, int beta, int me, 
   else {
     // 敵方
     for(auto it : state->legal_actions) {
-      if(it.second!=pre1.first&&it.second!=pre3.first) {
+      if(!(it.second==pre1.first)&&!(it.second==pre2.first&&pre1.second==pre3.first)) {
         beta=std::min(beta,get_value(state->next_state(it),depth-1,alpha,beta,me,it,pre1,pre2));
         if(beta<=alpha) break;
       }
